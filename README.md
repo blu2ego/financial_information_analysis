@@ -1,3 +1,3 @@
-# analysis of dart
+# Financial Information Analysis
 
-1. crawl dart data
+1. crawl dart data with R and Python

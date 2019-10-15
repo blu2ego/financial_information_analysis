@@ -1,6 +1,6 @@
 # init
 
-api.key <- readLines("~/R/dart_analysis/dart-analysis/api-key.txt")
+api.key <- readLines("~/projects/financial_information_analysis/data_crawling/source_dart/dart_api_key.txt")
 start.date = '19990101'
 ticker = '005930'
 
@@ -39,6 +39,5 @@ dcm_no <- dcm
 
 download_br <- paste0("http://dart.fss.or.kr/pdf/download/pdf.do?", "rcp_no=", rcp_no, "&dcm_no=", dcm_no)
 
-download_br
+br <- download.file(url = download_br, destfile = "~/projects/financial_information_analysis/data/dart/br/br.pdf")
 
-br <- download.file(url = download_br, destfile = "~/R/dart_analysis/dart_data/br.pdf")

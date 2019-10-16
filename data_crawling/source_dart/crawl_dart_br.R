@@ -40,4 +40,3 @@ dcm_no <- dcm
 download_br <- paste0("http://dart.fss.or.kr/pdf/download/pdf.do?", "rcp_no=", rcp_no, "&dcm_no=", dcm_no)
 
 br <- download.file(url = download_br, destfile = "~/projects/financial_information_analysis/data/dart/br/br.pdf")
-

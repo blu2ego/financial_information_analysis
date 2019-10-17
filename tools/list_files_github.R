@@ -1,0 +1,5 @@
+library(httr)
+req <- GET("https://api.github.com/repos/KZPS/Spotkania/git/trees/master?recursive=1")
+stop_for_status(req)
+filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = F)
+grep("Matteo/literature/", filelist, value = TRUE, fixed = TRUE)

@@ -1,5 +1,11 @@
+# github에 있는 파일들을 조회
+
 library(httr)
-req <- GET("https://api.github.com/repos/KZPS/Spotkania/git/trees/master?recursive=1")
+
+# GET /repos/:owner/:repo/git/trees/:tree_sha
+req <- GET("https://api.github.com/repos/blu2ego/financial-information-analysis/git/trees/master?recursive=1")
 stop_for_status(req)
 filelist <- unlist(lapply(content(req)$tree, "[", "path"), use.names = F)
-grep("Matteo/literature/", filelist, value = TRUE, fixed = TRUE)
+data_list <- grep("data/dart/br/", filelist, value = TRUE, fixed = TRUE)
+
+

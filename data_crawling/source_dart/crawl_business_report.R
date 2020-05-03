@@ -1,5 +1,4 @@
 # dart api 소개 페이지에서 동작한 호출 링크 사례
-# http://dart.fss.or.kr/api/search.xml?auth=1fde365f255f62f4b7699e1a0c01eb09386426e0&crp_cd=003480&start_dt=19990101&bsn_tp=A001&page_set=1000
 
 api.key <- readLines("~/projects/financial_information_analysis/data_crawling/resources/dart_api_key.txt")
 

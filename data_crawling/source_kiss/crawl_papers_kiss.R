@@ -10,8 +10,8 @@ login_popup <- remDr$findElement(using="xpath", value="//*[@id="btn-login-in"]")
 login_popup <- remDr$findElement(using="id", value="btn-login-in")
 login_popup$clickElement()
 
-login_id$sendKeysToElement("blu2ego")
-login_pw$sendKeysToElement("saracen@78")
+login_id$sendKeysToElement("")
+login_pw$sendKeysToElement("")
 
 login_btn <- remDr$findElement(using = "xpath", value = "//*[@id="header"]/div[3]/div[3]/div[1]/form[1]/div/div/div[2]/button")
 

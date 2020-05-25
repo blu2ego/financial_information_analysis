@@ -23,7 +23,7 @@ for (i in 1:length(kospi_crp_cd_filled)){
 
 }
 
-
+x
 
 library(jsonlite) # fromJSON() 함수를 사용하기 위해 jsonlite 패키지를 로딩
 raw_report_list <- list()

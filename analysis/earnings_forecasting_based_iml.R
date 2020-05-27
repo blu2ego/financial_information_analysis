@@ -19,7 +19,6 @@
 
 library(tidyverse)
 library(readxl)
-library(readr)
 
 raw_fi_ratio_kosdaq_1997 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_1997.xlsx")
 raw_fi_ratio_kosdaq_1998 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_1998.xlsx")
@@ -90,235 +89,26 @@ raw_fi_ratio_kospi_2019 <- read_excel("~/projects/financial_information_analysis
 raw_col_names <- names(raw_fi_ratio_kospi_2019)
 
 # 열 이름을 새롭게 정의
-names(raw_fi_ratio_2018) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
+new_col_names <- c(
+  "name", "market__corp_code", "fiscal_year", "industry_code", "industry_name", "biztype_code", "market_type", "establish_date", "listed_date", "unlisted_date", "fiscal_yymm", 
+  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", "growth_14",
+  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", "profit_14",
   "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
   "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
   "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
+  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", "safety_13", "safety_14", 
+  "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", "safety_24", "safety_25", "safety_26", "safety_27", 
+  "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
   "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
   "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
   "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
   "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
   "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
   "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
+  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6")
 
-names(raw_fi_ratio_2017) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
+names(raw_fi_ratio_kospi_2019) <- new_col_names
 
-names(raw_fi_ratio_2016) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
-
-names(raw_fi_ratio_2015) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
-
-names(raw_fi_ratio_2014) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
-
-names(raw_fi_ratio_2013) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
-
-names(raw_fi_ratio_2012) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
-
-names(raw_fi_ratio_2011) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
-
-names(raw_fi_ratio_2010) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
-
-names(raw_fi_ratio_2009) <- c(
-  "name", "code", "year", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", 
-  "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", 
-  "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", 
-  "safety_13", "safety_14", "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", 
-  "safety_24", "safety_25", "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", 
-  "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6",
-  "earnings", "num_common_stock", "total_asset", "total_capital", "cash_divident"
-)
 
 # test data와 train data의 구성
 

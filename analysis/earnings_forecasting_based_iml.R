@@ -107,8 +107,28 @@ new_col_names <- c(
   "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
   "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6")
 
-names(raw_fi_ratio_kospi_2019) <- new_col_names
+names(raw_fi_ratio_kospi_2019) <- new_col_names; names(raw_fi_ratio_kospi_2018) <- new_col_names; names(raw_fi_ratio_kospi_2017) <- new_col_names
+names(raw_fi_ratio_kospi_2016) <- new_col_names; names(raw_fi_ratio_kospi_2015) <- new_col_names; names(raw_fi_ratio_kospi_2014) <- new_col_names
+names(raw_fi_ratio_kospi_2013) <- new_col_names; names(raw_fi_ratio_kospi_2012) <- new_col_names; names(raw_fi_ratio_kospi_2011) <- new_col_names
+names(raw_fi_ratio_kospi_2010) <- new_col_names; names(raw_fi_ratio_kospi_2009) <- new_col_names; names(raw_fi_ratio_kospi_2008) <- new_col_names
+names(raw_fi_ratio_kospi_2007) <- new_col_names; names(raw_fi_ratio_kospi_2006) <- new_col_names; names(raw_fi_ratio_kospi_2005) <- new_col_names
+names(raw_fi_ratio_kospi_2004) <- new_col_names; names(raw_fi_ratio_kospi_2003) <- new_col_names; names(raw_fi_ratio_kospi_2002) <- new_col_names
+names(raw_fi_ratio_kospi_2001) <- new_col_names; names(raw_fi_ratio_kospi_2000) <- new_col_names; names(raw_fi_ratio_kospi_1999) <- new_col_names
+names(raw_fi_ratio_kospi_1998) <- new_col_names; names(raw_fi_ratio_kospi_1997) <- new_col_names; names(raw_fi_ratio_kospi_1996) <- new_col_names
+names(raw_fi_ratio_kospi_1995) <- new_col_names; names(raw_fi_ratio_kospi_1994) <- new_col_names; names(raw_fi_ratio_kospi_1993) <- new_col_names
+names(raw_fi_ratio_kospi_1992) <- new_col_names; names(raw_fi_ratio_kospi_1991) <- new_col_names; names(raw_fi_ratio_kospi_1990) <- new_col_names
+names(raw_fi_ratio_kospi_1989) <- new_col_names; names(raw_fi_ratio_kospi_1988) <- new_col_names; names(raw_fi_ratio_kospi_1987) <- new_col_names
+names(raw_fi_ratio_kospi_1986) <- new_col_names; names(raw_fi_ratio_kospi_1985) <- new_col_names; names(raw_fi_ratio_kospi_1984) <- new_col_names
+names(raw_fi_ratio_kospi_1983) <- new_col_names; names(raw_fi_ratio_kospi_1982) <- new_col_names; names(raw_fi_ratio_kospi_1981) <- new_col_names
 
+names(raw_fi_ratio_kosdaq_2019) <- new_col_names; names(raw_fi_ratio_kosdaq_2018) <- new_col_names; names(raw_fi_ratio_kosdaq_2017) <- new_col_names
+names(raw_fi_ratio_kosdaq_2016) <- new_col_names; names(raw_fi_ratio_kosdaq_2015) <- new_col_names; names(raw_fi_ratio_kosdaq_2014) <- new_col_names
+names(raw_fi_ratio_kosdaq_2013) <- new_col_names; names(raw_fi_ratio_kosdaq_2012) <- new_col_names; names(raw_fi_ratio_kosdaq_2011) <- new_col_names
+names(raw_fi_ratio_kosdaq_2010) <- new_col_names; names(raw_fi_ratio_kosdaq_2009) <- new_col_names; names(raw_fi_ratio_kosdaq_2008) <- new_col_names
+names(raw_fi_ratio_kosdaq_2007) <- new_col_names; names(raw_fi_ratio_kosdaq_2006) <- new_col_names; names(raw_fi_ratio_kosdaq_2005) <- new_col_names
+names(raw_fi_ratio_kosdaq_2004) <- new_col_names; names(raw_fi_ratio_kosdaq_2003) <- new_col_names; names(raw_fi_ratio_kosdaq_2002) <- new_col_names
+names(raw_fi_ratio_kosdaq_2001) <- new_col_names; names(raw_fi_ratio_kosdaq_2000) <- new_col_names; names(raw_fi_ratio_kosdaq_1999) <- new_col_names
+names(raw_fi_ratio_kosdaq_1998) <- new_col_names; names(raw_fi_ratio_kosdaq_1997) <- new_col_names
 
 # test data와 train data의 구성
 

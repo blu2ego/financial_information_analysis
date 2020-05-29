@@ -1,17 +1,18 @@
 # corp selection condition: 
-# 결산기 변경사 포함, 샂장일 이전 자료 포함, 
+# 결산기 변경사 불포함, 상장일 이전 자료 포함, 
 # 기업명/거래소코드/회계년도/산업코드/산업명/업종코드/소속코드/설립일/상장일/상장폐지일/회계년월 포함 177개 변수
 
-# - kospi 956개사
+# 추출일: 2020/05/29
+# - kospi 957개사
 # -- mnft / fiscal year: 12 end
-# -- 보고서 제출 기간: 1981/01 ~ 2020/12
+# -- 보고서 제출 기간: 현재 기준
 # -- 상장일: 1956/01/01 ~ 2020/05/26
 # -- 폐지사 포함: 1956/01/01 ~ 2020/05/26
 # -- 소속부: 일반/관리 모두 포함
 # -- 외부감사기관: 전체
 # - kosdaq: 1877개사
 # -- mnft / fiscal year: 12 end
-# -- 보고서 제출 기간: 1997/01 ~ 2020/12
+# -- 보고서 제출 기간: 현재 기준
 # -- 상장일: 1956/01/01 ~ 2020/05/26
 # -- 폐지사 포함: 1956/01/01 ~ 2020/05/26
 # -- 소속부: 일반/관리 모두 포함
@@ -20,69 +21,69 @@
 library(tidyverse)
 library(readxl)
 
-raw_fi_ratio_kosdaq_1997 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_1997.xlsx")
-raw_fi_ratio_kosdaq_1998 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_1998.xlsx")
-raw_fi_ratio_kosdaq_1999 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_1999.xlsx")
-raw_fi_ratio_kosdaq_2000 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2000.xlsx")
-raw_fi_ratio_kosdaq_2001 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2001.xlsx")
-raw_fi_ratio_kosdaq_2002 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2002.xlsx")
-raw_fi_ratio_kosdaq_2003 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2003.xlsx")
-raw_fi_ratio_kosdaq_2004 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2004.xlsx")
-raw_fi_ratio_kosdaq_2005 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2005.xlsx")
-raw_fi_ratio_kosdaq_2006 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2006.xlsx")
-raw_fi_ratio_kosdaq_2007 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2007.xlsx")
-raw_fi_ratio_kosdaq_2008 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2008.xlsx")
-raw_fi_ratio_kosdaq_2009 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2009.xlsx")
-raw_fi_ratio_kosdaq_2010 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2010.xlsx")
-raw_fi_ratio_kosdaq_2011 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2011.xlsx")
-raw_fi_ratio_kosdaq_2012 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2012.xlsx")
-raw_fi_ratio_kosdaq_2013 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2013.xlsx")
-raw_fi_ratio_kosdaq_2014 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2014.xlsx")
-raw_fi_ratio_kosdaq_2015 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2015.xlsx")
-raw_fi_ratio_kosdaq_2016 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2016.xlsx")
-raw_fi_ratio_kosdaq_2017 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2017.xlsx")
-raw_fi_ratio_kosdaq_2018 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2018.xlsx")
-raw_fi_ratio_kosdaq_2019 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200526_2019.xlsx")
+raw_fi_ratio_kosdaq_1997 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_1997.xlsx")
+raw_fi_ratio_kosdaq_1998 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_1998.xlsx")
+raw_fi_ratio_kosdaq_1999 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_1999.xlsx")
+raw_fi_ratio_kosdaq_2000 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2000.xlsx")
+raw_fi_ratio_kosdaq_2001 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2001.xlsx")
+raw_fi_ratio_kosdaq_2002 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2002.xlsx")
+raw_fi_ratio_kosdaq_2003 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2003.xlsx")
+raw_fi_ratio_kosdaq_2004 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2004.xlsx")
+raw_fi_ratio_kosdaq_2005 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2005.xlsx")
+raw_fi_ratio_kosdaq_2006 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2006.xlsx")
+raw_fi_ratio_kosdaq_2007 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2007.xlsx")
+raw_fi_ratio_kosdaq_2008 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2008.xlsx")
+raw_fi_ratio_kosdaq_2009 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2009.xlsx")
+raw_fi_ratio_kosdaq_2010 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2010.xlsx")
+raw_fi_ratio_kosdaq_2011 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2011.xlsx")
+raw_fi_ratio_kosdaq_2012 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2012.xlsx")
+raw_fi_ratio_kosdaq_2013 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2013.xlsx")
+raw_fi_ratio_kosdaq_2014 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2014.xlsx")
+raw_fi_ratio_kosdaq_2015 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2015.xlsx")
+raw_fi_ratio_kosdaq_2016 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2016.xlsx")
+raw_fi_ratio_kosdaq_2017 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2017.xlsx")
+raw_fi_ratio_kosdaq_2018 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2018.xlsx")
+raw_fi_ratio_kosdaq_2019 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2019.xlsx")
 
-raw_fi_ratio_kospi_1981 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1981.xlsx")
-raw_fi_ratio_kospi_1982 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1982.xlsx")
-raw_fi_ratio_kospi_1983 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1983.xlsx")
-raw_fi_ratio_kospi_1984 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1984.xlsx")
-raw_fi_ratio_kospi_1985 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1985.xlsx")
-raw_fi_ratio_kospi_1986 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1986.xlsx")
-raw_fi_ratio_kospi_1987 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1987.xlsx")
-raw_fi_ratio_kospi_1988 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1988.xlsx")
-raw_fi_ratio_kospi_1989 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1988.xlsx")
-raw_fi_ratio_kospi_1990 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1990.xlsx")
-raw_fi_ratio_kospi_1991 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1991.xlsx")
-raw_fi_ratio_kospi_1992 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1992.xlsx")
-raw_fi_ratio_kospi_1993 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1993.xlsx")
-raw_fi_ratio_kospi_1994 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1994.xlsx")
-raw_fi_ratio_kospi_1995 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1995.xlsx")
-raw_fi_ratio_kospi_1996 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1996.xlsx")
-raw_fi_ratio_kospi_1997 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1997.xlsx")
-raw_fi_ratio_kospi_1998 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1998.xlsx")
-raw_fi_ratio_kospi_1999 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_1999.xlsx")
-raw_fi_ratio_kospi_2000 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2000.xlsx")
-raw_fi_ratio_kospi_2001 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2001.xlsx")
-raw_fi_ratio_kospi_2002 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2002.xlsx")
-raw_fi_ratio_kospi_2003 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2003.xlsx")
-raw_fi_ratio_kospi_2004 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2004.xlsx")
-raw_fi_ratio_kospi_2005 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2005.xlsx")
-raw_fi_ratio_kospi_2006 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2006.xlsx")
-raw_fi_ratio_kospi_2007 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2007.xlsx")
-raw_fi_ratio_kospi_2008 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2008.xlsx")
-raw_fi_ratio_kospi_2009 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2009.xlsx")
-raw_fi_ratio_kospi_2010 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2010.xlsx")
-raw_fi_ratio_kospi_2011 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2011.xlsx")
-raw_fi_ratio_kospi_2012 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2012.xlsx")
-raw_fi_ratio_kospi_2013 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2013.xlsx")
-raw_fi_ratio_kospi_2014 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2014.xlsx")
-raw_fi_ratio_kospi_2015 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2015.xlsx")
-raw_fi_ratio_kospi_2016 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2016.xlsx")
-raw_fi_ratio_kospi_2017 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2017.xlsx")
-raw_fi_ratio_kospi_2018 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2018.xlsx")
-raw_fi_ratio_kospi_2019 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200526_2019.xlsx")
+raw_fi_ratio_kospi_1981 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1981.xlsx")
+raw_fi_ratio_kospi_1982 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1982.xlsx")
+raw_fi_ratio_kospi_1983 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1983.xlsx")
+raw_fi_ratio_kospi_1984 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1984.xlsx")
+raw_fi_ratio_kospi_1985 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1985.xlsx")
+raw_fi_ratio_kospi_1986 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1986.xlsx")
+raw_fi_ratio_kospi_1987 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1987.xlsx")
+raw_fi_ratio_kospi_1988 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1988.xlsx")
+raw_fi_ratio_kospi_1989 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1988.xlsx")
+raw_fi_ratio_kospi_1990 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1990.xlsx")
+raw_fi_ratio_kospi_1991 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1991.xlsx")
+raw_fi_ratio_kospi_1992 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1992.xlsx")
+raw_fi_ratio_kospi_1993 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1993.xlsx")
+raw_fi_ratio_kospi_1994 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1994.xlsx")
+raw_fi_ratio_kospi_1995 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1995.xlsx")
+raw_fi_ratio_kospi_1996 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1996.xlsx")
+raw_fi_ratio_kospi_1997 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1997.xlsx")
+raw_fi_ratio_kospi_1998 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1998.xlsx")
+raw_fi_ratio_kospi_1999 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1999.xlsx")
+raw_fi_ratio_kospi_2000 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2000.xlsx")
+raw_fi_ratio_kospi_2001 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2001.xlsx")
+raw_fi_ratio_kospi_2002 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2002.xlsx")
+raw_fi_ratio_kospi_2003 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2003.xlsx")
+raw_fi_ratio_kospi_2004 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2004.xlsx")
+raw_fi_ratio_kospi_2005 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2005.xlsx")
+raw_fi_ratio_kospi_2006 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2006.xlsx")
+raw_fi_ratio_kospi_2007 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2007.xlsx")
+raw_fi_ratio_kospi_2008 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2008.xlsx")
+raw_fi_ratio_kospi_2009 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2009.xlsx")
+raw_fi_ratio_kospi_2010 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2010.xlsx")
+raw_fi_ratio_kospi_2011 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2011.xlsx")
+raw_fi_ratio_kospi_2012 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2012.xlsx")
+raw_fi_ratio_kospi_2013 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2013.xlsx")
+raw_fi_ratio_kospi_2014 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2014.xlsx")
+raw_fi_ratio_kospi_2015 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2015.xlsx")
+raw_fi_ratio_kospi_2016 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2016.xlsx")
+raw_fi_ratio_kospi_2017 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2017.xlsx")
+raw_fi_ratio_kospi_2018 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2018.xlsx")
+raw_fi_ratio_kospi_2019 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2019.xlsx")
 
 
 # 원래 열 이름을 별도로 저장해 둠
@@ -136,23 +137,32 @@ names(raw_fi_ratio_kosdaq_1998) <- new_col_names; names(raw_fi_ratio_kosdaq_1997
 # 0(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 < 0
 # 1(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 > 0
 
-# 계산해야 할 변수는 
-# dEPS(t)_1 = EPS(t) - EPS(t-1)
-# dEPS(t)_2 = EPS(t) - EPS(t-1) - AVE_EPS(t) 
-# AVE_EPS(t) = {(EPS(t) - EPS(t-1)) + (EPS(t-1) - EPS(t-2)) + (EPS(t-2) - EPS(t-3)) + (EPS(t-3) - EPS(t-4))} / 4 = (EPS(t) - EPS(t-4)) / 4
+# dEPS는 정의에 따라 계산한 값
+# dEPS(t) = EPS(t) - EPS(t-1) - AVE_EPS(t) 
+# AVE_EPS(t) = {(EPS(t) - EPS(t-1)) + (EPS(t-1) - EPS(t-2)) + (EPS(t-2) - EPS(t-3)) + (EPS(t-3) - EPS(t-4))} / 4 
+#            = (EPS(t) - EPS(t-4)) / 4
+
+# DEPS는 0과 1로 재정의한 값
+# DEPS(t) = test$DEPS <- ifelse(test$dEPS > 0, 1, 0)
 
 # 실제 test data 계산
 # EPS(t)는 raw_col_names에서 61번째에 위치함. 그리고 이 값의 변경된 변수명은 "profit_44"임.
-
-# dEPS는 계산값이며, DEPS는 0과 1로 재정의한 값
-test <- raw_fi_ratio_2017
-test$dEPS <- raw_fi_ratio_2018$profit_44 - raw_fi_ratio_2017$profit_44 - (raw_fi_ratio_2018$profit_44 - raw_fi_ratio_2014$profit_44)/4
+test <- raw_fi_ratio_kospi_2019
+test$dEPS <- raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2018$profit_44 - (raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2015$profit_44)/4
 test$DEPS <- ifelse(test$dEPS > 0, 1, 0)
 test$FDEPS <- as.factor(test$DEPS)
 
-test_sel_val <- select(test, -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, 
-                       -productivity_1, -productivity_4, -productivity_10, -productivity_12, -productivity_13, -safety_14,
-                       -earnings, -num_common_stock, -total_asset, -total_capital, -cash_divident, -dEPS, -name, -code, -year, -DEPS)
+# 중복 변수를 찾기 위해 원래의 변수명과 새 변수명 벡터를 하나의 tibble로 합쳐서 눈의로 확인할 수 있도록 함. 
+# 할려면 원래 변수명에서 숫자가 포함된 위치를 찾아 중복 변수를 찾을 수도 있겠지만, 시간이 없을 땐 노가다..
+tibble_col_name <- tibble(raw_col_names, new_col_names)
+
+# test data 변수 선택 기준: 
+test_sel_val <- select(test, 
+                       -name, -market__corp_code, -fiscal_year, -industry_code, -industry_name, -biztype_code, 
+                       -market_type, -establish_date, -listed_date, -unlisted_date, -fiscal_yymm, # 기업 일반 정보
+                       -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+                       -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
+                       -dEPS, -DEPS) # target 변수임
 
 test_na <- test_sel_val[complete.cases(test_sel_val), ]
 

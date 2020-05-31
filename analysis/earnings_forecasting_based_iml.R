@@ -91,63 +91,71 @@ raw_col_names <- names(raw_fi_ratio_kospi_2019)
 
 # 열 이름을 새롭게 정의
 new_col_names <- c(
-  "name", "market__corp_code", "fiscal_year", "industry_code", "industry_name", "biztype_code", "market_type", "establish_date", "listed_date", "unlisted_date", "fiscal_yymm", 
-  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", "growth_11", "growth_12", "growth_13", "growth_14",
-  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", "profit_11", "profit_12", "profit_13", "profit_14",
-  "profit_15", "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", "profit_26", "profit_27",
-  "profit_28", "profit_29", "profit_30", "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
-  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
-  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", "safety_11", "safety_12", "safety_13", "safety_14", 
-  "safety_15", "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", "safety_21", "safety_22", "safety_23", "safety_24", "safety_25", "safety_26", "safety_27", 
-  "safety_28", "safety_29", "safety_30", "safety_31", "safety_32", "safety_33", "safety_34", "safety_35", "safety_36", "safety_37", "safety_38", "safety_39", 
-  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", "activity_11", "activity_12",
-  "activity_13", "activity_14", "activity_15", "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", "activity_21", 
-  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", "productivity_6", "productivity_7", "productivity_8", "productivity_9", 
-  "productivity_10", "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", "productivity_16", 
-  "va_1", "va_2", "va_3", "va_4", "va_5", "va_6", "va_7", "va_8", "va_9", "va_10", "va_11", "va_12", 
-  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", "invest_6", "invest_7", "invest_8", 
-  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", "ebitda_6")
+  "name", "market_corp_code", "fiscal_year",
+  "growth_1", "growth_2", "growth_3", "growth_4", "growth_5", 
+  "growth_6", "growth_7", "growth_8", "growth_9", "growth_10", 
+  "growth_11", "growth_12", "growth_13", "growth_14",
+  "profit_1", "profit_2", "profit_3", "profit_4", "profit_5", 
+  "profit_6", "profit_7", "profit_8", "profit_9", "profit_10", 
+  "profit_11", "profit_12", "profit_13", "profit_14","profit_15", 
+  "profit_16", "profit_17", "profit_18", "profit_19", "profit_20", 
+  "profit_21", "profit_22", "profit_23", "profit_24", "profit_25", 
+  "profit_26", "profit_27", "profit_28", "profit_29", "profit_30", 
+  "profit_31", "profit_32", "profit_33", "profit_34", "profit_35", 
+  "profit_36", "profit_37", "profit_38", "profit_39", "profit_40",
+  "profit_41", "profit_42", "profit_43", "profit_44", "profit_45", 
+  "profit_46", "profit_47", "profit_48", "profit_49", "profit_50", 
+  "safety_1", "safety_2", "safety_3", "safety_4", "safety_5", 
+  "safety_6", "safety_7", "safety_8", "safety_9", "safety_10", 
+  "safety_11", "safety_12", "safety_13", "safety_14", "safety_15", 
+  "safety_16", "safety_17", "safety_18", "safety_19", "safety_20", 
+  "safety_21", "safety_22", "safety_23", "safety_24", "safety_25", 
+  "safety_26", "safety_27", "safety_28", "safety_29", "safety_30", 
+  "safety_31", "safety_32", "safety_33", "safety_34", "safety_35", 
+  "safety_36", "safety_37", "safety_38", "safety_39", 
+  "activity_1", "activity_2", "activity_3", "activity_4", "activity_5", 
+  "activity_6", "activity_7", "activity_8", "activity_9", "activity_10", 
+  "activity_11", "activity_12", "activity_13", "activity_14", "activity_15", 
+  "activity_16", "activity_17", "activity_18", "activity_19", "activity_20", 
+  "activity_21", 
+  "productivity_1", "productivity_2", "productivity_3", "productivity_4", "productivity_5", 
+  "productivity_6", "productivity_7", "productivity_8", "productivity_9", "productivity_10", 
+  "productivity_11", "productivity_12", "productivity_13", "productivity_14", "productivity_15", 
+  "productivity_16", 
+  "va_1", "va_2", "va_3", "va_4", "va_5", 
+  "va_6", "va_7", "va_8", "va_9", "va_10", 
+  "va_11", "va_12", 
+  "invest_1", "invest_2", "invest_3", "invest_4", "invest_5", 
+  "invest_6", "invest_7", "invest_8", 
+  "ebitda_1", "ebitda_2", "ebitda_3", "ebitda_4", "ebitda_5", 
+  "ebitda_6")
 
-names(raw_fi_ratio_kospi_2019) <- new_col_names; names(raw_fi_ratio_kospi_2018) <- new_col_names; names(raw_fi_ratio_kospi_2017) <- new_col_names
-names(raw_fi_ratio_kospi_2016) <- new_col_names; names(raw_fi_ratio_kospi_2015) <- new_col_names; names(raw_fi_ratio_kospi_2014) <- new_col_names
-names(raw_fi_ratio_kospi_2013) <- new_col_names; names(raw_fi_ratio_kospi_2012) <- new_col_names; names(raw_fi_ratio_kospi_2011) <- new_col_names
-names(raw_fi_ratio_kospi_2010) <- new_col_names; names(raw_fi_ratio_kospi_2009) <- new_col_names; names(raw_fi_ratio_kospi_2008) <- new_col_names
-names(raw_fi_ratio_kospi_2007) <- new_col_names; names(raw_fi_ratio_kospi_2006) <- new_col_names; names(raw_fi_ratio_kospi_2005) <- new_col_names
-names(raw_fi_ratio_kospi_2004) <- new_col_names; names(raw_fi_ratio_kospi_2003) <- new_col_names; names(raw_fi_ratio_kospi_2002) <- new_col_names
-names(raw_fi_ratio_kospi_2001) <- new_col_names; names(raw_fi_ratio_kospi_2000) <- new_col_names; names(raw_fi_ratio_kospi_1999) <- new_col_names
-names(raw_fi_ratio_kospi_1998) <- new_col_names; names(raw_fi_ratio_kospi_1997) <- new_col_names; names(raw_fi_ratio_kospi_1996) <- new_col_names
-names(raw_fi_ratio_kospi_1995) <- new_col_names; names(raw_fi_ratio_kospi_1994) <- new_col_names; names(raw_fi_ratio_kospi_1993) <- new_col_names
-names(raw_fi_ratio_kospi_1992) <- new_col_names; names(raw_fi_ratio_kospi_1991) <- new_col_names; names(raw_fi_ratio_kospi_1990) <- new_col_names
-names(raw_fi_ratio_kospi_1989) <- new_col_names; names(raw_fi_ratio_kospi_1988) <- new_col_names; names(raw_fi_ratio_kospi_1987) <- new_col_names
-names(raw_fi_ratio_kospi_1986) <- new_col_names; names(raw_fi_ratio_kospi_1985) <- new_col_names; names(raw_fi_ratio_kospi_1984) <- new_col_names
-names(raw_fi_ratio_kospi_1983) <- new_col_names; names(raw_fi_ratio_kospi_1982) <- new_col_names; names(raw_fi_ratio_kospi_1981) <- new_col_names
+# 새로운 변수를 kospi 데이터에 할당
+for(i in 1:39){
+  tmp <- paste0("names(raw_fi_ratio_kospi_", i+1980, ") <- new_col_names")
+  eval(parse(text = tmp))
+}
 
-names(raw_fi_ratio_kosdaq_2019) <- new_col_names; names(raw_fi_ratio_kosdaq_2018) <- new_col_names; names(raw_fi_ratio_kosdaq_2017) <- new_col_names
-names(raw_fi_ratio_kosdaq_2016) <- new_col_names; names(raw_fi_ratio_kosdaq_2015) <- new_col_names; names(raw_fi_ratio_kosdaq_2014) <- new_col_names
-names(raw_fi_ratio_kosdaq_2013) <- new_col_names; names(raw_fi_ratio_kosdaq_2012) <- new_col_names; names(raw_fi_ratio_kosdaq_2011) <- new_col_names
-names(raw_fi_ratio_kosdaq_2010) <- new_col_names; names(raw_fi_ratio_kosdaq_2009) <- new_col_names; names(raw_fi_ratio_kosdaq_2008) <- new_col_names
-names(raw_fi_ratio_kosdaq_2007) <- new_col_names; names(raw_fi_ratio_kosdaq_2006) <- new_col_names; names(raw_fi_ratio_kosdaq_2005) <- new_col_names
-names(raw_fi_ratio_kosdaq_2004) <- new_col_names; names(raw_fi_ratio_kosdaq_2003) <- new_col_names; names(raw_fi_ratio_kosdaq_2002) <- new_col_names
-names(raw_fi_ratio_kosdaq_2001) <- new_col_names; names(raw_fi_ratio_kosdaq_2000) <- new_col_names; names(raw_fi_ratio_kosdaq_1999) <- new_col_names
-names(raw_fi_ratio_kosdaq_1998) <- new_col_names; names(raw_fi_ratio_kosdaq_1997) <- new_col_names
+# 새로운 변수를 kosdaq 데이터에 할당
+for(i in 1:23){
+  tmp <- paste0("names(raw_fi_ratio_kosdaq_", i+1996, ") <- new_col_names")
+  eval(parse(text = tmp))
+}
 
 # test data와 train data의 구성
-
 # test data
-# 0(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 < 0
-# 1(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 > 0
-
+# 0(2019) if EPS(2019) - EPS(2018) - (EPS(2019) - EPS(2015))/4 < 0
+# 1(2019) if EPS(2019) - EPS(2018) - (EPS(2019) - EPS(2015))/4 > 0
 # dEPS는 정의에 따라 계산한 값
 # dEPS(t) = EPS(t) - EPS(t-1) - AVE_EPS(t) 
 # AVE_EPS(t) = {(EPS(t) - EPS(t-1)) + (EPS(t-1) - EPS(t-2)) + (EPS(t-2) - EPS(t-3)) + (EPS(t-3) - EPS(t-4))} / 4 
 #            = (EPS(t) - EPS(t-4)) / 4
-
 # DEPS는 0과 1로 재정의한 값
 # DEPS(t) = test$DEPS <- ifelse(test$dEPS > 0, 1, 0)
 
 # 실제 test data 계산
 # EPS(t)는 raw_col_names에서 61번째에 위치함. 그리고 이 값의 변경된 변수명은 "profit_44"임.
-test <- raw_fi_ratio_kospi_2019
+test <- raw_fi_ratio_kospi_2018
 test$dEPS <- raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2018$profit_44 - (raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2015$profit_44)/4
 test$DEPS <- ifelse(test$dEPS > 0, 1, 0)
 test$FDEPS <- as.factor(test$DEPS)
@@ -158,90 +166,59 @@ tibble_col_name <- tibble(raw_col_names, new_col_names)
 
 # test data 변수 선택 기준: 
 test_sel_val <- select(test, 
-                       -name, -market__corp_code, -fiscal_year, -industry_code, -industry_name, -biztype_code, 
-                       -market_type, -establish_date, -listed_date, -unlisted_date, -fiscal_yymm, # 기업 일반 정보
+                       -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
                        -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
                        -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
-                       -dEPS, -DEPS) # target 변수임
+                       -dEPS, -DEPS)
 
-test_na <- test_sel_val[complete.cases(test_sel_val), ]
-
-# train data
-
-# Y = 0(2017) if EPS(2017) - EPS(2016) - (EPS(2017) - EPS(2013))/4 < 0
-# Y = 1(2017) if EPS(2017) - EPS(2016) - (EPS(2017) - EPS(2013))/4 > 0
-# X = FINANCIALRATIO(2016)
+test_kospi_na <- test_sel_val[complete.cases(test_sel_val), ]
 
 # train data 계산 - 목표 변수
+# Y = 0(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 < 0
+# Y = 1(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 > 0
+# X = FINANCIALRATIOS(2016)
 
-# 2017년
-train_fi_ratio_2017 <- raw_fi_ratio_2016
-train_fi_ratio_2017$dEPS <- raw_fi_ratio_2017$profit_44 - raw_fi_ratio_2016$profit_44 - (raw_fi_ratio_2017$profit_44 - raw_fi_ratio_2013$profit_44)/4
-train_fi_ratio_2017$DEPS <- ifelse(train_fi_ratio_2017$dEPS > 0, 1, 0)
-train_fi_ratio_2017$FDEPS <- as.factor(train_fi_ratio_2017$DEPS)
+# 노가다 기준 2018년 train 데이터 생성
+# train_fi_ratio_kospi_2018 <- raw_fi_ratio_kospi_2017
+# train_fi_ratio_kospi_2018$dEPS <- raw_fi_ratio_kospi_2018$profit_44 - raw_fi_ratio_kospi_2017$profit_44 - (raw_fi_ratio_kospi_2018$profit_44 - raw_fi_ratio_kospi_2014$profit_44)/4
+# train_fi_ratio_kospi_2018$DEPS <- ifelse(train_fi_ratio_kospi_2018$dEPS > 0, 1, 0)
+# train_fi_ratio_kospi_2018$FDEPS <- as.factor(train_fi_ratio_kospi_2018$DEPS)
+# 
+# train_2018_sel_val <- select(train_fi_ratio_kospi_2018, 
+#                              -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
+#                              -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+#                              -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
+#                              -dEPS, -DEPS) # 목표 변수
+# 
+# train_2018_na <- train_2018_sel_val[complete.cases(train_2018_sel_val), ]
 
-train_2017_sel_val <- select(train_fi_ratio_2017, -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, 
-                             -productivity_1, -productivity_4, -productivity_10, -productivity_12, -productivity_13, -safety_14,
-                             -earnings, -num_common_stock, -total_asset, -total_capital, -cash_divident, -dEPS, -name, -code, -year, -DEPS)
+for(i in 1:34){
+  dEPS <- get(paste0("raw_fi_ratio_kospi_", i+1984))[, 61] - get(paste0("raw_fi_ratio_kospi_", i+1983))[, 61] - (get(paste0("raw_fi_ratio_kospi_", i+1984))[, 61] - get(paste0("raw_fi_ratio_kospi_", i+1980))[, 61]/4)
+  DEPS <- ifelse(dEPS > 0, 1, 0)
+  FDEPS <- as.factor(DEPS)
+  assign(paste0("train_kospi_", i+1984), tibble(get(paste0("raw_fi_ratio_kospi_", i+1983)), FDEPS))
+}
 
-train_2017_na <- train_2017_sel_val[complete.cases(train_2017_sel_val), ]
-
-# 2016년
-train_fi_ratio_2016 <- raw_fi_ratio_2015
-train_fi_ratio_2016$dEPS <- raw_fi_ratio_2016$profit_44 - raw_fi_ratio_2015$profit_44 - (raw_fi_ratio_2016$profit_44 - raw_fi_ratio_2012$profit_44)/4
-train_fi_ratio_2016$DEPS <- ifelse(train_fi_ratio_2016$dEPS > 0, 1, 0)
-train_fi_ratio_2016$FDEPS <- as.factor(train_fi_ratio_2016$DEPS)
-
-train_2016_sel_val <- select(train_fi_ratio_2016, -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, 
-                             -productivity_1, -productivity_4, -productivity_10, -productivity_12, -productivity_13, -safety_14,
-                             -earnings, -num_common_stock, -total_asset, -total_capital, -cash_divident, -dEPS, -name, -code, -year, -DEPS)
-
-train_2016_na <- train_2016_sel_val[complete.cases(train_2016_sel_val), ]
-
-# 2015년
-train_fi_ratio_2015 <- raw_fi_ratio_2014
-train_fi_ratio_2015$dEPS <- raw_fi_ratio_2015$profit_44 - raw_fi_ratio_2014$profit_44 - (raw_fi_ratio_2015$profit_44 - raw_fi_ratio_2011$profit_44)/4
-train_fi_ratio_2015$DEPS <- ifelse(train_fi_ratio_2015$dEPS > 0, 1, 0)
-train_fi_ratio_2015$FDEPS <- as.factor(train_fi_ratio_2015$DEPS)
-
-train_2015_sel_val <- select(train_fi_ratio_2015, -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, 
-                             -productivity_1, -productivity_4, -productivity_10, -productivity_12, -productivity_13, -safety_14,
-                             -earnings, -num_common_stock, -total_asset, -total_capital, -cash_divident, -dEPS, -name, -code, -year, -DEPS)
-
-train_2015_na <- train_2015_sel_val[complete.cases(train_2015_sel_val), ]
-
-# 2014년
-train_fi_ratio_2014 <- raw_fi_ratio_2013
-train_fi_ratio_2014$dEPS <- raw_fi_ratio_2014$profit_44 - raw_fi_ratio_2013$profit_44 - (raw_fi_ratio_2014$profit_44 - raw_fi_ratio_2010$profit_44)/4
-train_fi_ratio_2014$DEPS <- ifelse(train_fi_ratio_2014$dEPS > 0, 1, 0)
-train_fi_ratio_2014$FDEPS <- as.factor(train_fi_ratio_2014$DEPS)
-
-train_2014_sel_val <- select(train_fi_ratio_2014, -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, 
-                             -productivity_1, -productivity_4, -productivity_10, -productivity_12, -productivity_13, -safety_14,
-                             -earnings, -num_common_stock, -total_asset, -total_capital, -cash_divident, -dEPS, -name, -code, -year, -DEPS)
-
-train_2014_na <- train_2014_sel_val[complete.cases(train_2014_sel_val), ]
-
-# 2013년
-train_fi_ratio_2013 <- raw_fi_ratio_2012
-train_fi_ratio_2013$dEPS <- raw_fi_ratio_2013$profit_44 - raw_fi_ratio_2012$profit_44 - (raw_fi_ratio_2013$profit_44 - raw_fi_ratio_2009$profit_44)/4
-train_fi_ratio_2013$DEPS <- ifelse(train_fi_ratio_2013$dEPS > 0, 1, 0)
-train_fi_ratio_2013$FDEPS <- as.factor(train_fi_ratio_2013$DEPS)
-
-train_2013_sel_val <- select(train_fi_ratio_2013, -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, 
-                             -productivity_1, -productivity_4, -productivity_10, -productivity_12, -productivity_13, -safety_14,
-                             -earnings, -num_common_stock, -total_asset, -total_capital, -cash_divident, -dEPS, -name, -code, -year, -DEPS)
-
-train_2013_na <- train_2013_sel_val[complete.cases(train_2013_sel_val), ]
 
 # merge train data 
-tmp_2017_2016_merged_train_data <- bind_rows(train_2017_na, train_2016_na)
-tmp_2017_2015_merged_train_data <- bind_rows(tmp_2017_2016_merged_train_data, train_2015_na)
-tmp_2017_2014_merged_train_data <- bind_rows(tmp_2017_2015_merged_train_data, train_2014_na)
-train_na <- bind_rows(tmp_2017_2014_merged_train_data, train_2013_na)
+train_kospi_full <- bind_rows(train_kospi_1985, train_kospi_1986, train_kospi_1987, train_kospi_1988, train_kospi_1989,
+                   train_kospi_1990, train_kospi_1991, train_kospi_1992, train_kospi_1993, train_kospi_1994,
+                   train_kospi_1995, train_kospi_1996, train_kospi_1997, train_kospi_1998, train_kospi_1999, 
+                   train_kospi_2000, train_kospi_2001, train_kospi_2002, train_kospi_2003, train_kospi_2004,
+                   train_kospi_2005, train_kospi_2006, train_kospi_2007, train_kospi_2008, train_kospi_2009, 
+                   train_kospi_2010, train_kospi_2011, train_kospi_2012, train_kospi_2013, train_kospi_2014,
+                   train_kospi_2015, train_kospi_2016, train_kospi_2017, train_kospi_2018)
+                   
+train_sel_val <- select(train_kospi_full, 
+                        -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
+                        -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+                        -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
+
+train_kospi_na <- train_sel_val[complete.cases(train_sel_val), ] # 각 행에 저장된 모든 값이 NA가 아닐 때만 TRUE
+
 
 # 상하위 10개씩 상관계수 그리기
-train_na_df <- as.data.frame(train_na)
+train_kospi_na_df <- as.data.frame(train_kospi_na)
 
 t <- numeric()
 df <- numeric()
@@ -268,16 +245,16 @@ cor_test_highlow %>%
 # 전체 변수 활용하여 분석
 
 set.seed(1000)
-n <- nrow(train_na)
+n <- nrow(train_kospi_na)
 idx <- 1:n
 train_idx <- sample(idx, n * .80)
 idx <- setdiff(idx, train_idx)
 validate_idx <- sample(idx, n * .20)
 length(train_idx); length(validate_idx)
 
-train_1st <- train_na[train_idx, ]
-validation_1st <- train_na[validate_idx, ]
-test_1st <- test_na
+train_1st <- train_kospi_na[train_idx, ]
+validation_1st <- train_kospi_na[validate_idx, ]
+test_1st <- test_kospi_na
 
 # logistic regression
 set.seed(1000)

@@ -21,30 +21,6 @@
 library(tidyverse)
 library(readxl)
 
-raw_fi_ratio_kosdaq_1997 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_1997.xlsx")
-raw_fi_ratio_kosdaq_1998 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_1998.xlsx")
-raw_fi_ratio_kosdaq_1999 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_1999.xlsx")
-raw_fi_ratio_kosdaq_2000 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2000.xlsx")
-raw_fi_ratio_kosdaq_2001 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2001.xlsx")
-raw_fi_ratio_kosdaq_2002 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2002.xlsx")
-raw_fi_ratio_kosdaq_2003 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2003.xlsx")
-raw_fi_ratio_kosdaq_2004 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2004.xlsx")
-raw_fi_ratio_kosdaq_2005 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2005.xlsx")
-raw_fi_ratio_kosdaq_2006 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2006.xlsx")
-raw_fi_ratio_kosdaq_2007 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2007.xlsx")
-raw_fi_ratio_kosdaq_2008 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2008.xlsx")
-raw_fi_ratio_kosdaq_2009 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2009.xlsx")
-raw_fi_ratio_kosdaq_2010 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2010.xlsx")
-raw_fi_ratio_kosdaq_2011 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2011.xlsx")
-raw_fi_ratio_kosdaq_2012 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2012.xlsx")
-raw_fi_ratio_kosdaq_2013 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2013.xlsx")
-raw_fi_ratio_kosdaq_2014 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2014.xlsx")
-raw_fi_ratio_kosdaq_2015 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2015.xlsx")
-raw_fi_ratio_kosdaq_2016 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2016.xlsx")
-raw_fi_ratio_kosdaq_2017 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2017.xlsx")
-raw_fi_ratio_kosdaq_2018 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2018.xlsx")
-raw_fi_ratio_kosdaq_2019 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kosdaq_mnft_20200529_2019.xlsx")
-
 raw_fi_ratio_kospi_1981 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1981.xlsx")
 raw_fi_ratio_kospi_1982 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1982.xlsx")
 raw_fi_ratio_kospi_1983 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_1983.xlsx")
@@ -136,12 +112,6 @@ for(i in 1:39){
   eval(parse(text = tmp))
 }
 
-# 새로운 변수를 kosdaq 데이터에 할당
-for(i in 1:23){
-  tmp <- paste0("names(raw_fi_ratio_kosdaq_", i+1996, ") <- new_col_names")
-  eval(parse(text = tmp))
-}
-
 # test data와 train data의 구성
 # test data
 # 0(2019) if EPS(2019) - EPS(2018) - (EPS(2019) - EPS(2015))/4 < 0
@@ -199,7 +169,6 @@ for(i in 1:34){
   assign(paste0("train_kospi_", i+1984), tibble(get(paste0("raw_fi_ratio_kospi_", i+1983)), FDEPS))
 }
 
-
 # merge train data 
 train_kospi_full <- bind_rows(train_kospi_1985, train_kospi_1986, train_kospi_1987, train_kospi_1988, train_kospi_1989,
                    train_kospi_1990, train_kospi_1991, train_kospi_1992, train_kospi_1993, train_kospi_1994,
@@ -225,7 +194,7 @@ df <- numeric()
 p <- numeric()
 cor <- numeric()
 for (i in 1:152) {
-  tmp_cor_test <- cor.test(train_na_df[, i], as.numeric(train_na$FDEPS))
+  tmp_cor_test <- cor.test(train_kospi_na_df[, i], as.numeric(train_kospi_na$FDEPS))
   t[i] <- tmp_cor_test[1][[1]][[1]]
   df[i] <- tmp_cor_test[2][[1]][[1]]
   p[i] <- tmp_cor_test[3][[1]]

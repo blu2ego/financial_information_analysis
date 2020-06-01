@@ -61,6 +61,9 @@ raw_fi_ratio_kospi_2017 <- read_excel("~/projects/financial_information_analysis
 raw_fi_ratio_kospi_2018 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2018.xlsx")
 raw_fi_ratio_kospi_2019 <- read_excel("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_2019.xlsx")
 
+# for(i in 1981:1982){
+#   get(paste0("raw_fi_ratio_kospi_for_test_", i)) <- read_excel(paste0("~/projects/financial_information_analysis/data/financial_ratios/financial_ratio_kospi_mnft_20200529_", i, ".xlsx"))
+# }
 
 # 원래 열 이름을 별도로 저장해 둠
 raw_col_names <- names(raw_fi_ratio_kospi_2019)
@@ -125,42 +128,28 @@ for(i in 1:39){
 
 # 실제 test data 계산
 # EPS(t)는 raw_col_names에서 61번째에 위치함. 그리고 이 값의 변경된 변수명은 "profit_44"임.
-test <- raw_fi_ratio_kospi_2018
-test$dEPS <- raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2018$profit_44 - (raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2015$profit_44)/4
-test$DEPS <- ifelse(test$dEPS > 0, 1, 0)
-test$FDEPS <- as.factor(test$DEPS)
+test_kospi <- raw_fi_ratio_kospi_2018
+test_kospi$dEPS <- raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2018$profit_44 - (raw_fi_ratio_kospi_2019$profit_44 - raw_fi_ratio_kospi_2015$profit_44)/4
+test_kospi$DEPS <- ifelse(test_kospi$dEPS > 0, 1, 0)
+test_kospi$FDEPS <- as.factor(test_kospi$DEPS)
 
 # 중복 변수를 찾기 위해 원래의 변수명과 새 변수명 벡터를 하나의 tibble로 합쳐서 눈의로 확인할 수 있도록 함. 
 # 할려면 원래 변수명에서 숫자가 포함된 위치를 찾아 중복 변수를 찾을 수도 있겠지만, 시간이 없을 땐 노가다..
-tibble_col_name <- tibble(raw_col_names, new_col_names)
+col_name_df <- data.frame(raw_col_names, new_col_names)
 
 # test data 변수 선택 기준: 
-test_sel_val <- select(test, 
-                       -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
-                       -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
-                       -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
-                       -dEPS, -DEPS)
+test_kospi_val_selected <- select(test_kospi, # test_kospi에서 아래의 변수들을 제거
+                                  -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
+                                  -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+                                  -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
+                                  -dEPS, -DEPS)
 
-test_kospi_na <- test_sel_val[complete.cases(test_sel_val), ]
+test_kospi_val_selected_na <- test_kospi_val_selected[complete.cases(test_kospi_val_selected), ] # test_kospi_val_selected에서 na가 있는 행 제거
 
 # train data 계산 - 목표 변수
 # Y = 0(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 < 0
 # Y = 1(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 > 0
 # X = FINANCIALRATIOS(2016)
-
-# 노가다 기준 2018년 train 데이터 생성
-# train_fi_ratio_kospi_2018 <- raw_fi_ratio_kospi_2017
-# train_fi_ratio_kospi_2018$dEPS <- raw_fi_ratio_kospi_2018$profit_44 - raw_fi_ratio_kospi_2017$profit_44 - (raw_fi_ratio_kospi_2018$profit_44 - raw_fi_ratio_kospi_2014$profit_44)/4
-# train_fi_ratio_kospi_2018$DEPS <- ifelse(train_fi_ratio_kospi_2018$dEPS > 0, 1, 0)
-# train_fi_ratio_kospi_2018$FDEPS <- as.factor(train_fi_ratio_kospi_2018$DEPS)
-# 
-# train_2018_sel_val <- select(train_fi_ratio_kospi_2018, 
-#                              -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
-#                              -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
-#                              -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
-#                              -dEPS, -DEPS) # 목표 변수
-# 
-# train_2018_na <- train_2018_sel_val[complete.cases(train_2018_sel_val), ]
 
 for(i in 1:34){
   dEPS <- get(paste0("raw_fi_ratio_kospi_", i+1984))[, 61] - get(paste0("raw_fi_ratio_kospi_", i+1983))[, 61] - (get(paste0("raw_fi_ratio_kospi_", i+1984))[, 61] - get(paste0("raw_fi_ratio_kospi_", i+1980))[, 61]/4)
@@ -171,130 +160,127 @@ for(i in 1:34){
 
 # merge train data 
 train_kospi_full <- bind_rows(train_kospi_1985, train_kospi_1986, train_kospi_1987, train_kospi_1988, train_kospi_1989,
-                   train_kospi_1990, train_kospi_1991, train_kospi_1992, train_kospi_1993, train_kospi_1994,
-                   train_kospi_1995, train_kospi_1996, train_kospi_1997, train_kospi_1998, train_kospi_1999, 
-                   train_kospi_2000, train_kospi_2001, train_kospi_2002, train_kospi_2003, train_kospi_2004,
-                   train_kospi_2005, train_kospi_2006, train_kospi_2007, train_kospi_2008, train_kospi_2009, 
-                   train_kospi_2010, train_kospi_2011, train_kospi_2012, train_kospi_2013, train_kospi_2014,
-                   train_kospi_2015, train_kospi_2016, train_kospi_2017, train_kospi_2018)
+                              train_kospi_1990, train_kospi_1991, train_kospi_1992, train_kospi_1993, train_kospi_1994,
+                              train_kospi_1995, train_kospi_1996, train_kospi_1997, train_kospi_1998, train_kospi_1999, 
+                              train_kospi_2000, train_kospi_2001, train_kospi_2002, train_kospi_2003, train_kospi_2004,
+                              train_kospi_2005, train_kospi_2006, train_kospi_2007, train_kospi_2008, train_kospi_2009, 
+                              train_kospi_2010, train_kospi_2011, train_kospi_2012, train_kospi_2013, train_kospi_2014,
+                              train_kospi_2015, train_kospi_2016, train_kospi_2017, train_kospi_2018)
                    
-train_sel_val <- select(train_kospi_full, 
-                        -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
-                        -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
-                        -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
+train_kospi_val_selected <- select(train_kospi_full, # train_kospi_full에서 아래의 변수들을 제거
+                                   -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
+                                   -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+                                   -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
 
-train_kospi_na <- train_sel_val[complete.cases(train_sel_val), ] # 각 행에 저장된 모든 값이 NA가 아닐 때만 TRUE
-
+train_kospi_val_selected_na <- train_kospi_val_selected[complete.cases(train_kospi_val_selected), ] # 각 행에 저장된 모든 값이 NA가 아닐 때만 TRUE
+str(train_kospi_val_selected_na)
 
 # 상하위 10개씩 상관계수 그리기
-train_kospi_na_df <- as.data.frame(train_kospi_na)
-
+train_kospi_val_selected_na_df <- as.data.frame(train_kospi_val_selected_na)
 t <- numeric()
 df <- numeric()
 p <- numeric()
 cor <- numeric()
-for (i in 1:152) {
-  tmp_cor_test <- cor.test(train_kospi_na_df[, i], as.numeric(train_kospi_na$FDEPS))
+for (i in 1:147) {
+  tmp_cor_test <- cor.test(train_kospi_val_selected_na_df[, i], as.numeric(train_kospi_val_selected_na_df$FDEPS))
   t[i] <- tmp_cor_test[1][[1]][[1]]
   df[i] <- tmp_cor_test[2][[1]][[1]]
   p[i] <- tmp_cor_test[3][[1]]
   cor[i] <- tmp_cor_test[4][[1]][[1]]
 }
 cor_test <- data.frame(t, df, p, cor)
-cor_test$var <- colnames(train_na[1:152])
+cor_test$var <- colnames(train_kospi_val_selected_na[1:147])
 cor_test_sorted <- cor_test %>%
   arrange(desc(cor))
-cor_test_highlow <- cor_test_sorted[c(1:10, 143:152), ]
+cor_test_highlow <- cor_test_sorted[c(1:10, 138:147), ]
 cor_test_highlow %>% 
   ggplot(aes(reorder(var, cor), cor)) +
   geom_point() +
   coord_flip()
 
-
 # 전체 변수 활용하여 분석
-
 set.seed(1000)
-n <- nrow(train_kospi_na)
+n <- nrow(train_kospi_val_selected_na)
 idx <- 1:n
-train_idx <- sample(idx, n * .80)
-idx <- setdiff(idx, train_idx)
-validate_idx <- sample(idx, n * .20)
-length(train_idx); length(validate_idx)
+train_kospi_idx <- sample(idx, n * .80)
+idx <- setdiff(idx, train_kospi_idx)
+validation_kospi_idx <- sample(idx, n * .20)
+length(train_kospi_idx); length(validation_kospi_idx)
 
-train_1st <- train_kospi_na[train_idx, ]
-validation_1st <- train_kospi_na[validate_idx, ]
-test_1st <- test_kospi_na
+train_kospi_1st <- train_kospi_val_selected_na[train_kospi_idx, ]
+validation_kospi_1st <- train_kospi_val_selected_na[validation_kospi_idx, ]
+test_kospi_1st <- test_kospi_val_selected_na
 
 # logistic regression
 set.seed(1000)
-earnings_glm <- glm(FDEPS ~ ., data = train_1st, family = binomial)
-yhat_glm <- predict(earnings_glm, newdata = validation_1st, type = 'response')
-pred_glm <- prediction(yhat_glm, as.numeric(as.character(validation_1st$FDEPS)))
+earnings_glm <- glm(as.factor(FDEPS) ~ ., data = train_kospi_1st, family = binomial)
+yhat_glm <- predict(earnings_glm, newdata = validation_kospi_1st, type = 'response')
+pred_glm <- prediction(yhat_glm, as.numeric(as.character(validation_kospi_1st$FDEPS)))
 perf_glm <- performance(pred_glm, measure = 'tpr', x.measure = 'fpr')
 performance(pred_glm, "auc")@y.values[[1]]
 
-yhat_glm_test <- predict(earnings_glm, newdata = test_1st, type = 'response')
-pred_glm_test <- prediction(yhat_glm_test, as.numeric(as.character(test_1st$FDEPS)))
+yhat_glm_test <- predict(earnings_glm, newdata = test_kospi_1st, type = 'response')
+pred_glm_test <- prediction(yhat_glm_test, as.numeric(as.character(test_kospi_1st$FDEPS)))
 perf_glm_test <- performance(pred_glm_test, measure = 'tpr', x.measure = 'fpr')
 performance(pred_glm_test, "auc")@y.values[[1]]
 
-earnings_bayesglm <- arm::bayesglm(FDEPS ~ ., data = train_1st, family = binomial)
-yhat_bayesglm <- predict(earnings_bayesglm, newdata = validation_1st, type = 'response')
-pred_bayesglm <- prediction(yhat_bayesglm, as.numeric(as.character(validation_1st$FDEPS)))
+earnings_bayesglm <- arm::bayesglm(as.factor(FDEPS) ~ ., data = train_kospi_1st, family = binomial)
+yhat_bayesglm <- predict(earnings_bayesglm, newdata = validation_kospi_1st, type = 'response')
+pred_bayesglm <- prediction(yhat_bayesglm, as.numeric(as.character(validation_kospi_1st$FDEPS)))
 performance(pred_bayesglm, "auc")@y.values[[1]]
 
-yhat_bayesglm_test <- predict(earnings_bayesglm, newdata = test_1st, type = 'response')
-pred_bayesglm_test <- prediction(yhat_bayesglm_test, as.numeric(as.character(test_1st$FDEPS)))
+yhat_bayesglm_test <- predict(earnings_bayesglm, newdata = test_kospi_1st, type = 'response')
+pred_bayesglm_test <- prediction(yhat_bayesglm_test, as.numeric(as.character(test_kospi_1st$FDEPS)))
 performance(pred_bayesglm_test, "auc")@y.values[[1]]
 
 # tree model - cart
 library(rpart)
 set.seed(1000)
-earnings_cart <- rpart(FDEPS ~ ., data = train_1st, method = "class")
-yhat_cart <- predict(earnings_cart, validation_1st)
-pred_cart <- prediction(yhat_cart[, "1"], as.numeric(as.character(validation_1st$FDEPS)))
+earnings_cart <- rpart(FDEPS ~ ., data = train_kospi_1st, method = "class")
+yhat_cart <- predict(earnings_cart, validation_kospi_1st)
+pred_cart <- prediction(yhat_cart[, "1"], as.numeric(as.character(validation_kospi_1st$FDEPS)))
 performance(pred_cart, "auc")@y.values[[1]]
 
-yhat_cart_test <- predict(earnings_cart, newdata = test_1st)
-pred_cart_test <- prediction(yhat_cart_test[, "1"], as.numeric(as.character(test_1st$FDEPS)))
+yhat_cart_test <- predict(earnings_cart, newdata = test_kospi_1st)
+pred_cart_test <- prediction(yhat_cart_test[, "1"], as.numeric(as.character(test_kospi_1st$FDEPS)))
 performance(pred_cart_test, "auc")@y.values[[1]]
 
-yhat_cart_prob <- predict(earnings_cart, validation_1st, type = "prob")[, 2]
-pred_cart_prob <- prediction(yhat_cart_prob, as.numeric(as.character(validation_1st$FDEPS)))
+yhat_cart_prob <- predict(earnings_cart, validation_kospi_1st, type = "prob")[, 2]
+pred_cart_prob <- prediction(yhat_cart_prob, as.numeric(as.character(validation_kospi_1st$FDEPS)))
 perf_cart <- performance(pred_cart_prob, measure = 'tpr', x.measure = 'fpr')
 performance(pred_cart_prob, "auc")@y.values[[1]]
 
-yhat_cart_prob_test <- predict(earnings_cart, newdata = test_1st, type = "prob")[,2]
-pred_cart_prob_test <- prediction(yhat_cart_prob_test, as.numeric(as.character(test_1st$FDEPS)))
+yhat_cart_prob_test <- predict(earnings_cart, newdata = test_kospi_1st, type = "prob")[,2]
+pred_cart_prob_test <- prediction(yhat_cart_prob_test, as.numeric(as.character(test_kospi_1st$FDEPS)))
 perf_cart_test <- performance(pred_cart_prob_test, measure = 'tpr', x.measure = 'fpr')
 performance(pred_cart_prob_test, "auc")@y.values[[1]]
 
 # randomForest
 library(randomForest)
 set.seed(1000)
-earnings_rf <- randomForest(FDEPS ~ ., mtry = floor(sqrt(153)), ntree = 500, data = train_1st)
-yhat_rf <- predict(earnings_rf, newdata = validation_1st, type = 'prob')[, '1']
-pred_rf <- prediction(yhat_rf, as.numeric(as.character(validation_1st$FDEPS)))
+earnings_rf <- randomForest(as.factor(FDEPS) ~ ., mtry = floor(sqrt(153)), ntree = 500, data = train_kospi_1st)
+yhat_rf <- predict(earnings_rf, newdata = validation_kospi_1st, type = 'prob')[, '1']
+pred_rf <- prediction(yhat_rf, as.numeric(as.character(validation_kospi_1st$FDEPS)))
 perf_rf <- performance(pred_rf, measure = 'tpr', x.measure = 'fpr')
 performance(pred_rf, "auc")@y.values[[1]]
 
-yhat_rf_test <- predict(earnings_rf, newdata = test_1st, type = 'prob')[, '1']
-pred_rf_test <- prediction(yhat_rf_test, as.numeric(as.character(test_1st$FDEPS)))
+yhat_rf_test <- predict(earnings_rf, newdata = test_kospi_1st, type = 'prob')[, '1']
+pred_rf_test <- prediction(yhat_rf_test, as.numeric(as.character(test_kospi_1st$FDEPS)))
 perf_rf_test <- performance(pred_rf_test, measure = 'tpr', x.measure = 'fpr')
 performance(pred_rf_test, "auc")@y.values[[1]]
 
 # boosting - gbm
 library(gbm)
 set.seed(1000)
-earnings_gbm <- gbm(as.numeric(as.character(FDEPS)) ~ . , data = train_1st, distribution = "bernoulli", n.trees = 50000, cv.folds = 3, verbose = T)
+earnings_gbm <- gbm(as.numeric(FDEPS) ~ . , data = train_kospi_1st, distribution = "bernoulli", n.trees = 50000, cv.folds = 3, verbose = T)
 best_tier <- gbm.perf(earnings_gbm, method = "cv")
-yhat_gbm <- predict(earnings_gbm, n.trees = best_tier, newdata = validation_1st, type = 'response')
-pred_gbm <- prediction(yhat_gbm, as.numeric(as.character(validation_1st$FDEPS)))
+yhat_gbm <- predict(earnings_gbm, n.trees = best_tier, newdata = validation_kospi_1st, type = 'response')
+pred_gbm <- prediction(yhat_gbm, as.numeric(as.character(validation_kospi_1st$FDEPS)))
 perf_gbm <- performance(pred_gbm, measure = 'tpr', x.measure = 'fpr')
 performance(pred_gbm, "auc")@y.values[[1]]
 
-yhat_gbm_test <- predict(earnings_gbm, n.trees = best_tier, newdata = test_1st, type = 'response')
-pred_gbm_test <- prediction(yhat_gbm_test, as.numeric(as.character(test_1st$FDEPS)))
+yhat_gbm_test <- predict(earnings_gbm, n.trees = best_tier, newdata = test_kospi_1st, type = 'response')
+pred_gbm_test <- prediction(yhat_gbm_test, as.numeric(as.character(test_kospi_1st$FDEPS)))
 perf_gbm_test <- performance(pred_gbm_test, measure = 'tpr', x.measure = 'fpr')
 performance(pred_gbm_test, "auc")@y.values[[1]]
 
@@ -423,5 +409,3 @@ summary(earnings_rf)
 varImp(earnings_rf)
 
 summary(earnings_gbm)
-
-

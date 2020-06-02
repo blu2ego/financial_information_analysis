@@ -9,3 +9,4 @@ gbm_model <- h2o.gbm(x = x, y = y, training_frame = train_kospi_h2o, model_id = 
 
 xgb_model <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = valid,booster = "dart", normalize_type = "tree", seed = 1234)
 
+explainer <- lime::lime(x)

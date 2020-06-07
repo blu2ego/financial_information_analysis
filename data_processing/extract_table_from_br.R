@@ -1,5 +1,13 @@
-library(tabulizer)
+library(pdftools)
+br_text <- pdf_text("~/projects/financial_information_analysis/data/business_report/dart/sample/br.pdf")
 
-tables <- extract_tables("~/projects/financial_information_analysis/data/dart/br/br.pdf")
-str(tables)
-tables[1]
+search_word <- c("감사용역", "감사 용역")
+bag_search_word <- paste(search_word, collapse = "|")
+where_audit_table <- grep(bag_search_word, br_text)
+
+library(tabulizer)
+br_tables <- extract_tables("~/projects/financial_information_analysis/data/business_report/dart/sample/br.pdf", 
+                            pages = where_audit_table, output = "data.frame")
+br_tables_df
+
+

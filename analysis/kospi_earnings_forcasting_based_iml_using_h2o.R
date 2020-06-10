@@ -196,7 +196,7 @@ cor_test_highlow %>%
 
 # 모델 학습
 library(h2o)
-h2o.init(nthreads = -1)
+h2o.init()
 
 y <- "DEPS"
 x <- setdiff(names(train_kospi_val_selected_na), y)

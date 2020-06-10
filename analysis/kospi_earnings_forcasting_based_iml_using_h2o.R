@@ -172,6 +172,8 @@ train_kospi_val_selected_na <- train_kospi_val_selected[complete.cases(train_kos
 
 # 상하위 10개씩 상관계수 그리기
 train_kospi_val_selected_na_df <- as.data.frame(train_kospi_val_selected_na)
+test_kospi_val_selected_na_df <- as.data.frame(test_kospi_val_selected_na)
+
 t <- numeric()
 df <- numeric()
 p <- numeric()
@@ -199,13 +201,13 @@ library(h2o)
 h2o.init()
 
 y <- "DEPS"
-x <- setdiff(names(train_kospi_val_selected_na), y)
+x <- setdiff(names(train_kospi_val_selected_na_df), y)
 
-train_kospi_val_selected_na[, y] <- as.factor(train_kospi_val_selected_na[, y])
-test_kospi_val_selected_na[, y] <- as.factor(test_kospi_val_selected_na[, y])
+train_kospi_val_selected_na_df[, y] <- as.factor(train_kospi_val_selected_na_df[, y])
+test_kospi_val_selected_na_df[, y] <- as.factor(test_kospi_val_selected_na_df[, y])
 
-train_kospi_h2o <- as.h2o(train_kospi_val_selected_na, "train_kospi_h2o")
-test_kospi_h2o <- as.h2o(test_kospi_val_selected_na, "test_kospi_h2o")
+train_kospi_h2o <- as.h2o(train_kospi_val_selected_na_df, "train_kospi_h2o")
+test_kospi_h2o <- as.h2o(test_kospi_val_selected_na_df, "test_kospi_h2o")
 
 glm_model <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", nfolds = 10, family = "binomial")
 
@@ -223,8 +225,8 @@ perf_xgb <- h2o.performance(xgb_model, test_kospi_h2o)
 perf_xgb
 
 library(lime)
-explainer <- lime(x = train_kospi_val_selected_na, model = glm_model)
-explainations <- explain(x = test_kospi_val_selected, 
+explainer <- lime(x = train_kospi_val_selected_na_df, model = glm_model)
+explainations <- explain(x = test_kospi_val_selected_na_df, 
                          explainer = explainer,
                          n_permutations = 5000,
                          feature_select = "auto",
@@ -233,8 +235,8 @@ explainations <- explain(x = test_kospi_val_selected,
                          n_labels = 1)
 
 library(lime)
-explainer <- lime(x = train_kospi_val_selected_na, model = gbm_model)
-explainations <- explain(x = test_kospi_val_selected, 
+explainer <- lime(x = train_kospi_val_selected_na_df, model = gbm_model)
+explainations <- explain(x = test_kospi_val_selected_na_df, 
                          explainer = explainer,
                          n_permutations = 5000,
                          feature_select = "auto",
@@ -243,8 +245,8 @@ explainations <- explain(x = test_kospi_val_selected,
                          n_labels = 1)
 
 library(lime)
-explainer <- lime(x = train_kospi_val_selected_na, model = xgb_model)
-explainations <- explain(x = test_kospi_val_selected, 
+explainer <- lime(x = train_kospi_val_selected_na_df, model = xgb_model)
+explainations <- explain(x = test_kospi_val_selected_na_df, 
                          explainer = explainer,
                          n_permutations = 5000,
                          feature_select = "auto",

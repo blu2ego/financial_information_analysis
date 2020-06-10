@@ -211,11 +211,21 @@ test_kospi_val_selected_na_df[, y] <- as.factor(test_kospi_val_selected_na_df[, 
 train_kospi_h2o <- as.h2o(train_kospi_val_selected_na_df, "train_kospi_h2o")
 test_kospi_h2o <- as.h2o(test_kospi_val_selected_na_df, "test_kospi_h2o")
 
+<<<<<<< HEAD
 glm_model <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", family = "binomial")
 
 # gbm_model <- h2o.gbm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "gbm_model", nfolds = 10, ntrees = 100)
 
 xgb_model <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = test_kospi_h2o, booster = "dart", normalize_type = "tree", nfolds = 10, seed = 1234)
+=======
+glm_model_v1 <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", family = "binomial")
+glm_model_v2 <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", nfolds = 10, family = "binomial")
+
+xgb_model_v1 <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = test_kospi_h2o, 
+                            booster = "dart", normalize_type = "tree", seed = 1234)
+xgb_model_v2 <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = test_kospi_h2o, 
+                         booster = "dart", normalize_type = "tree", nfolds = 10, seed = 1234)
+>>>>>>> bc2a57830deda655d23da3be06042ce96a8bb7d8
 
 perf_glm <- h2o.performance(glm_model, test_kospi_h2o)
 perf_glm
@@ -227,6 +237,7 @@ perf_xgb <- h2o.performance(xgb_model, test_kospi_h2o)
 perf_xgb
 
 library(lime)
+<<<<<<< HEAD
 glm_explainer <- lime(x = train_kospi_val_selected_na_df, model = glm_model)
 explainations <- explain(x = test_kospi_val_selected_na_df, 
                          explainer = glm_explainer,
@@ -245,6 +256,29 @@ explainations <- explain(x = test_kospi_val_selected_na_df,
 #                          n_labels = 1)
 
 xbg_explainer <- lime(x = train_kospi_val_selected_na_df, model = xgb_model)
+=======
+explainer_v1_glm <- lime(x = train_kospi_val_selected_na_df, model = glm_model_v1)
+explainations_v1_glm <- explain(x = test_kospi_val_selected_na_df, 
+                                explainer = explainer_v1_glm,
+                                n_permutations = 5000,
+                                feature_select = "auto",
+                                n_features = 10,
+                                labels = NULL,
+                                n_labels = 1)
+
+explainer_v2_glm <- lime(x = train_kospi_val_selected_na_df, model = glm_model_v1)
+explainations_v2_glm <- explain(x = test_kospi_val_selected_na_df, 
+                                explainer = explainer_v2_glm,
+                                n_permutations = 5000,
+                                feature_select = "auto",
+                                n_features = 10,
+                                labels = NULL,
+                                n_labels = "YES")
+
+
+
+explainer <- lime(x = train_kospi_val_selected_na_df, model = xgb_model)
+>>>>>>> bc2a57830deda655d23da3be06042ce96a8bb7d8
 explainations <- explain(x = test_kospi_val_selected_na_df, 
                          explainer = xbg_explainer,
                          n_permutations = 5000,

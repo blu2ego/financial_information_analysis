@@ -135,17 +135,12 @@ test_kospi$DEPS <- ifelse(test_kospi$dEPS > 0, 1, 0)
 col_name_df <- data.frame(raw_col_names, new_col_names)
 
 # test data 변수 선택 기준: 
-test_kospi_na <- test_kospi[complete.cases(test_kospi), ] # test_kospi_val_selected에서 na가 있는 행 제거
-
-sum(as.numeric(test_kospi_na$DEPS))
-
 test_kospi_val <- select(test_kospi, # test_kospi에서 아래의 변수들을 제거
                          -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
                          -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
                          -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
                          -dEPS)
 test_kospi_val_na <- test_kospi_val[complete.cases(test_kospi_val), ]
-
 sum(as.numeric(test_kospi_val_na$DEPS))
 
 # train data 계산 - 목표 변수
@@ -168,28 +163,22 @@ train_kospi_full <- bind_rows(train_kospi_1985, train_kospi_1986, train_kospi_19
                               train_kospi_2010, train_kospi_2011, train_kospi_2012, train_kospi_2013, train_kospi_2014,
                               train_kospi_2015, train_kospi_2016, train_kospi_2017, train_kospi_2018, .id = "year")
 
-train_kospi_full_val <- select(train_kospi_full, # train_kospi_full에서 아래의 변수들을 제거
-                               -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
-                               -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
-                               -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
 
-train_kospi_full_val_na <- train_kospi_full_val[complete.cases(train_kospi_full_val), ] # 각 행에 저장된 모든 값이 NA가 아닐 때만 TRUE                               
-
-train_val_na <- list()
-agg_sum_val_na <- c()
-for (i in 1:34) {
-  train_val_na[[i]] <- as.data.frame(subset(train_kospi_full_val_na, year == i))
-  agg_sum_val_na[i] <- sum(train_val_na[[i]]$DEPS)
-}
-
-
+# DEPS에 NA가 없는 경우를 먼저 선택한 후, 기업 일반 정보, 2007년 이전 발생분 변수, 중복 변수에 해당하는 변수를 제거
 train_kospi_full_deps_na <- subset(train_kospi_full, DEPS != "NA")
-
 train_kospi_full_deps_na_val <- select(train_kospi_full_deps_na, # train_kospi_full에서 아래의 변수들을 제거
                                        -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
                                        -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
                                        -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
-                                        
+train_kospi_full_deps_na_val_re <- train_kospi_full_deps_na_val[complete.cases(train_kospi_full_deps_na_val), ]
+
+# 세 데이터세트의 각 경우에 대해 1의 갯수를 계산
+train_na <- list()
+agg_sum_na <- c()
+for (i in 1:34) {
+  train_na[[i]] <- as.data.frame(subset(train_kospi_full_deps_na, year == i))
+  agg_sum_na[i] <- sum(train_na[[i]]$DEPS)
+}
 
 train_na_val <- list()
 agg_sum_na_val <- c()
@@ -198,27 +187,33 @@ for (i in 1:34) {
   agg_sum_na_val[i] <- sum(train_na_val[[i]]$DEPS)
 }
 
-agg_sum_val_na; agg_sum_na_val
+train_na_val_re <- list()
+agg_sum_na_val_re <- c()
+for (i in 1:34) {
+  train_na_val_re[[i]] <- as.data.frame(subset(train_kospi_full_deps_na_val_re, year == i))
+  agg_sum_na_val_re[i] <- sum(train_na_val_re[[i]]$DEPS)
+}
 
-train_kospi_full_na_val_df <- as.data.frame(train_kospi_full_na_val)
-test_kospi_val_selected_na_df <- as.data.frame(test_kospi_val_selected_na)
+agg_sum_na; agg_sum_na_val; agg_sum_na_val_re
+
+# tibble 데이터 구조를 분석에 사용하기 위해 data.frame으로 변환
+train_kospi_full_na_val_df <- as.data.frame(train_kospi_full_deps_na_val_re[, -1])
+test_kospi_val_na_df <- as.data.frame(test_kospi_val_na)
 
 # 상하위 10개씩 상관계수 그리기
-
 t <- numeric()
 df <- numeric()
 p <- numeric()
 cor <- numeric()
-
 for (i in 1:147) {
-  tmp_cor_test <- cor.test(train_kospi_val_selected_na_df[, i], train_kospi_val_selected_na_df$DEPS)
+  tmp_cor_test <- cor.test(train_kospi_full_na_val_df[, i], train_kospi_full_na_val_df$DEPS)
   t[i] <- tmp_cor_test[1][[1]][[1]]
   df[i] <- tmp_cor_test[2][[1]][[1]]
   p[i] <- tmp_cor_test[3][[1]]
   cor[i] <- tmp_cor_test[4][[1]][[1]]
 }
 cor_test <- data.frame(t, df, p, cor)
-cor_test$var <- colnames(train_kospi_val_selected_na[1:147])
+cor_test$var <- colnames(train_kospi_full_na_val_df[1:147])
 cor_test_sorted <- cor_test %>%
   arrange(desc(cor))
 cor_test_highlow <- cor_test_sorted[c(1:10, 138:147), ]
@@ -231,11 +226,11 @@ cor_test_highlow %>%
 library(h2o)
 h2o.init()
 
-train_kospi_val_selected_na_df[, y] <- as.factor(train_kospi_val_selected_na_df[, y])
-test_kospi_val_selected_na_df[, y] <- as.factor(test_kospi_val_selected_na_df[, y])
+train_kospi_full_na_val_df$DEPS <- as.factor(train_kospi_full_na_val_df$DEPS)
+test_kospi_val_na_df$DEPS <- as.factor(test_kospi_val_na_df$DEPS)
 
-train_kospi_h2o <- as.h2o(train_kospi_val_selected_na_df)
-test_kospi_h2o <- as.h2o(test_kospi_val_selected_na_df)
+train_kospi_h2o <- as.h2o(train_kospi_full_na_val_df)
+test_kospi_h2o <- as.h2o(test_kospi_val_na_df)
 
 y <- "DEPS"
 x <- setdiff(names(train_kospi_h2o), y)
@@ -252,20 +247,36 @@ perf_xgb
 
 #IML
 library(lime)
-glm_explainer <- lime(x = train_kospi_val_selected_na_df, model = glm_model)
-explainations_glm <- explain(x = as.data.frame(test_kospi_h2o), 
+glm_explainer <- lime(x = train_kospi_full_na_val_df, model = glm_model)
+explainations_glm_v1 <- explain(x = as.data.frame(test_kospi_h2o), 
                               explainer = glm_explainer,
                               n_labels = 1,
-                              n_features = 10,
+                              n_features = 20,
                               n_permutations = 1000,
-                              feature_select = "auto"
+                              kernel_width = 1
+)
+
+explainations_glm_v2 <- explain(x = as.data.frame(test_kospi_h2o), 
+                             explainer = glm_explainer,
+                             n_labels = 1,
+                             n_features = 20,
+                             n_permutations = 1000,
+                             feature_select = "auto"
 )
 
 xgb_explainer <- lime(x = train_kospi_val_selected_na_df, model = xgb_model)
-explainations_xgb <- explain(x = as.data.frame(test_kospi_h2o), 
+explainations_xgb_v1 <- explain(x = as.data.frame(test_kospi_h2o), 
+                                explainer = xgb_explainer,
+                                n_labels = 1,
+                                n_features = 20,
+                                n_permutations = 1000,
+                                kernel_width = 1
+)
+
+explainations_xgb_v2 <- explain(x = as.data.frame(test_kospi_h2o), 
                              explainer = xgb_explainer,
                              n_labels = 1,
-                             n_features = 10,
+                             n_features = 20,
                              n_permutations = 1000,
                              feature_select = "auto"
 )

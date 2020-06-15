@@ -172,6 +172,10 @@ train_kospi_full_deps_na_val <- select(train_kospi_full_deps_na, # train_kospi_f
                                        -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
 train_kospi_full_deps_na_val_re <- train_kospi_full_deps_na_val[complete.cases(train_kospi_full_deps_na_val), ]
 
+
+glm <- glm(DEPS ~ ., family = "binomial", data = train_kospi_full_deps_na_val_re)
+summary(glm)
+
 # 세 데이터세트의 각 경우에 대해 1의 갯수를 계산
 train_na <- list()
 agg_sum_na <- c()
@@ -280,3 +284,45 @@ explainations_xgb_v2 <- explain(x = as.data.frame(test_kospi_h2o),
                              n_permutations = 1000,
                              feature_select = "auto"
 )
+
+# ROC 곡선 그리기
+par(mfrow = c(1, 2))
+plot(h2o.performance(glm_model), type='roc', main = 'ROC Curve for Logistic Model')
+plot(h2o.performance(xgb_model), type='roc', main = 'ROC Curve for XGBoost Model')
+
+# ROC 차이 검정 - https://www.r-bloggers.com/statistical-assessments-of-auc/
+library(pROC)
+
+# set.seed(2019)
+# REFERENCE:
+# A METHOD OF COMPARING THE AREAS UNDER RECEIVER OPERATING CHARACTERISTIC CURVES DERIVED FROM THE SAME CASES
+# HANLEY JA, MCNEIL BJ (1983)
+# pROC::roc.test(roc1, roc2, method = "bootstrap", boot.n = 500, progress = "none", paired = T)
+# D = 1.7164, boot.n = 500, boot.stratified = 1, p-value = 0.0861
+
+# REFERENCE:
+# COMPARING THE AREAS UNDER TWO OR MORE CORRELATED RECEIVER OPERATING CHARACTERISTIC CURVES: A NONPARAMETRIC APPROACH
+# DELONG ER, DELONG DM, CLARKE-PEARSON DL (1988)
+# pROC::roc.test(roc1, roc2, method = "delong", paired = T)
+# Z = 1.7713, p-value = 0.0765
+
+# REFERENCE
+# A DISTRIBUTION-FREE PROCEDURE FOR COMPARING RECEIVER OPERATING CHARACTERISTIC CURVES FROM A PAIRED EXPERIMENT
+# VENKATRAMAN ES, BEGG CB (1996)
+# pROC::roc.test(roc1, roc2, method = "venkatraman", boot.n = 500, progress = "none", paired = T)
+# E = 277560, boot.n = 500, p-value = 0.074
+
+set.seed(1000)
+roc_glm_validation <- pROC::roc(response = validation_1st$FDEPS, predictor = yhat_glm)
+roc_gbm_validation <- pROC::roc(response = validation_1st$FDEPS, predictor = yhat_gbm)
+
+set.seed(1000)
+roc_validation_glm_gbm <- pROC::roc.test(roc_glm_validation, roc_gbm_validation, method = "bootstrap", boot.n = 500, progress = "none", paired = T)
+roc_validation_glm_gbm
+
+roc_glm_test <- pROC::roc(response = test_1st$FDEPS, predictor = yhat_glm_test)
+roc_gbm_test <- pROC::roc(response = test_1st$FDEPS, predictor = yhat_gbm_test)
+
+set.seed(1000)
+roc_test_glm_gbm <- pROC::roc.test(roc_glm_test, roc_gbm_test, method = "bootstrap", boot.n = 500, progress = "none", paired = T)
+roc_test_glm_gbm

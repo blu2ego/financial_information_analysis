@@ -135,13 +135,18 @@ test_kospi$DEPS <- ifelse(test_kospi$dEPS > 0, 1, 0)
 col_name_df <- data.frame(raw_col_names, new_col_names)
 
 # test data 변수 선택 기준: 
-test_kospi_val_selected <- select(test_kospi, # test_kospi에서 아래의 변수들을 제거
-                                  -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
-                                  -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
-                                  -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
-                                  -dEPS)
+test_kospi_na <- test_kospi[complete.cases(test_kospi), ] # test_kospi_val_selected에서 na가 있는 행 제거
 
-test_kospi_val_selected_na <- test_kospi_val_selected[complete.cases(test_kospi_val_selected), ] # test_kospi_val_selected에서 na가 있는 행 제거
+sum(as.numeric(test_kospi_na$DEPS))
+
+test_kospi_val <- select(test_kospi, # test_kospi에서 아래의 변수들을 제거
+                         -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
+                         -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+                         -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11, # 중복 변수
+                         -dEPS)
+test_kospi_val_na <- test_kospi_val[complete.cases(test_kospi_val), ]
+
+sum(as.numeric(test_kospi_val_na$DEPS))
 
 # train data 계산 - 목표 변수
 # Y = 0(2018) if EPS(2018) - EPS(2017) - (EPS(2018) - EPS(2014))/4 < 0
@@ -161,17 +166,41 @@ train_kospi_full <- bind_rows(train_kospi_1985, train_kospi_1986, train_kospi_19
                               train_kospi_2000, train_kospi_2001, train_kospi_2002, train_kospi_2003, train_kospi_2004,
                               train_kospi_2005, train_kospi_2006, train_kospi_2007, train_kospi_2008, train_kospi_2009, 
                               train_kospi_2010, train_kospi_2011, train_kospi_2012, train_kospi_2013, train_kospi_2014,
-                              train_kospi_2015, train_kospi_2016, train_kospi_2017, train_kospi_2018)
+                              train_kospi_2015, train_kospi_2016, train_kospi_2017, train_kospi_2018, .id = "year")
 
-train_kospi_val_selected <- select(train_kospi_full, # train_kospi_full에서 아래의 변수들을 제거
-                                   -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
-                                   -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
-                                   -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
+train_kospi_full_val <- select(train_kospi_full, # train_kospi_full에서 아래의 변수들을 제거
+                               -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
+                               -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+                               -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
 
-train_kospi_val_selected_na <- train_kospi_val_selected[complete.cases(train_kospi_val_selected), ] # 각 행에 저장된 모든 값이 NA가 아닐 때만 TRUE
+train_kospi_full_val_na <- train_kospi_full_val[complete.cases(train_kospi_full_val), ] # 각 행에 저장된 모든 값이 NA가 아닐 때만 TRUE                               
+
+train_val_na <- list()
+agg_sum_val_na <- c()
+for (i in 1:34) {
+  train_val_na[[i]] <- as.data.frame(subset(train_kospi_full_val_na, year == i))
+  agg_sum_val_na[i] <- sum(train_val_na[[i]]$DEPS)
+}
 
 
-train_kospi_val_selected_na_df <- as.data.frame(train_kospi_val_selected_na)
+train_kospi_full_deps_na <- subset(train_kospi_full, DEPS != "NA")
+
+train_kospi_full_deps_na_val <- select(train_kospi_full_deps_na, # train_kospi_full에서 아래의 변수들을 제거
+                                       -name, -market_corp_code, -fiscal_year, # 기업 일반 정보
+                                       -growth_5, -profit_3, -profit_7, -profit_10, -profit_13, -profit_16, -profit_17, -profit_45, -productivity_4, # 2007년 이전 발생
+                                       -productivity_1, -productivity_2, -productivity_10, -productivity_12, -productivity_13, -va_1, -va_8, -va_9, -va_10, -va_11) # 중복 변수
+                                        
+
+train_na_val <- list()
+agg_sum_na_val <- c()
+for (i in 1:34) {
+  train_na_val[[i]] <- as.data.frame(subset(train_kospi_full_deps_na_val, year == i))
+  agg_sum_na_val[i] <- sum(train_na_val[[i]]$DEPS)
+}
+
+agg_sum_val_na; agg_sum_na_val
+
+train_kospi_full_na_val_df <- as.data.frame(train_kospi_full_na_val)
 test_kospi_val_selected_na_df <- as.data.frame(test_kospi_val_selected_na)
 
 # 상하위 10개씩 상관계수 그리기
@@ -202,84 +231,41 @@ cor_test_highlow %>%
 library(h2o)
 h2o.init()
 
-y <- "DEPS"
-x <- setdiff(names(train_kospi_val_selected_na_df), y)
-
 train_kospi_val_selected_na_df[, y] <- as.factor(train_kospi_val_selected_na_df[, y])
 test_kospi_val_selected_na_df[, y] <- as.factor(test_kospi_val_selected_na_df[, y])
 
-train_kospi_h2o <- as.h2o(train_kospi_val_selected_na_df, "train_kospi_h2o")
-test_kospi_h2o <- as.h2o(test_kospi_val_selected_na_df, "test_kospi_h2o")
+train_kospi_h2o <- as.h2o(train_kospi_val_selected_na_df)
+test_kospi_h2o <- as.h2o(test_kospi_val_selected_na_df)
 
-glm_model <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", family = "binomial")
+y <- "DEPS"
+x <- setdiff(names(train_kospi_h2o), y)
 
-# gbm_model <- h2o.gbm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "gbm_model", nfolds = 10, ntrees = 100)
-
-xgb_model <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = test_kospi_h2o, booster = "dart", normalize_type = "tree", nfolds = 10, seed = 1234)
-
-glm_model_v1 <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", family = "binomial")
-glm_model_v2 <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", nfolds = 10, family = "binomial")
-
-xgb_model_v1 <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = test_kospi_h2o, 
-                            booster = "dart", normalize_type = "tree", seed = 1234)
-xgb_model_v2 <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = test_kospi_h2o, 
-                         booster = "dart", normalize_type = "tree", nfolds = 10, seed = 1234)
+glm_model <- h2o.glm(x = x, y = y, training_frame = train_kospi_h2o, model_id = "glm_model", nfolds = 10, family = "binomial")
+xgb_model <- h2o.xgboost(x = x, y = y, training_frame = train_kospi_h2o, validation_frame = test_kospi_h2o, 
+                         booster = "dart", normalize_type = "tree", seed = 1234, nfolds = 10)
 
 perf_glm <- h2o.performance(glm_model, test_kospi_h2o)
 perf_glm
 
-# perf_gbm <- h2o.performance(gbm_model, test_kospi_h2o)
-# perf_gbm
-
 perf_xgb <- h2o.performance(xgb_model, test_kospi_h2o)
 perf_xgb
 
+#IML
 library(lime)
-
 glm_explainer <- lime(x = train_kospi_val_selected_na_df, model = glm_model)
-explainations <- explain(x = test_kospi_val_selected_na_df, 
-                         explainer = glm_explainer,
-                         n_permutations = 5000,
-                         feature_select = "auto",
-                         n_features = 10,
-                         labels = "Yes")
+explainations_glm <- explain(x = as.data.frame(test_kospi_h2o), 
+                              explainer = glm_explainer,
+                              n_labels = 1,
+                              n_features = 10,
+                              n_permutations = 1000,
+                              feature_select = "auto"
+)
 
-# gbm_explainer <- lime(x = train_kospi_val_selected_na_df, model = gbm_model)
-# explainations <- explain(x = test_kospi_val_selected_na_df, 
-#                          explainer = gbm_explainer,
-#                          n_permutations = 5000,
-#                          feature_select = "auto",
-#                          n_features = 10,
-#                          labels = NULL,
-#                          n_labels = 1)
-
-xbg_explainer <- lime(x = train_kospi_val_selected_na_df, model = xgb_model)
-
-explainer_v1_glm <- lime(x = train_kospi_val_selected_na_df, model = glm_model_v1)
-explainations_v1_glm <- explain(x = test_kospi_val_selected_na_df, 
-                                explainer = explainer_v1_glm,
-                                n_permutations = 5000,
-                                feature_select = "auto",
-                                n_features = 10,
-                                labels = NULL,
-                                n_labels = 1)
-
-explainer_v2_glm <- lime(x = train_kospi_val_selected_na_df, model = glm_model_v1)
-explainations_v2_glm <- explain(x = test_kospi_val_selected_na_df, 
-                                explainer = explainer_v2_glm,
-                                n_permutations = 5000,
-                                feature_select = "auto",
-                                n_features = 10,
-                                labels = NULL,
-                                n_labels = "YES")
-
-
-
-explainer <- lime(x = train_kospi_val_selected_na_df, model = xgb_model)
-explainations <- explain(x = test_kospi_val_selected_na_df, 
-                         explainer = xbg_explainer,
-                         n_permutations = 5000,
-                         feature_select = "auto",
-                         n_features = 10,
-                         labels = NULL,
-                         n_labels = 1)
+xgb_explainer <- lime(x = train_kospi_val_selected_na_df, model = xgb_model)
+explainations_xgb <- explain(x = as.data.frame(test_kospi_h2o), 
+                             explainer = xgb_explainer,
+                             n_labels = 1,
+                             n_features = 10,
+                             n_permutations = 1000,
+                             feature_select = "auto"
+)

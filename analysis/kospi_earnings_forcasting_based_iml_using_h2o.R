@@ -173,7 +173,7 @@ train_kospi_full_deps_na_val <- select(train_kospi_full_deps_na, # train_kospi_f
 train_kospi_full_deps_na_val_re <- train_kospi_full_deps_na_val[complete.cases(train_kospi_full_deps_na_val), ]
 
 
-glm <- glm(DEPS ~ ., family = "binomial", data = train_kospi_full_deps_na_val_re)
+glm <- glm(DEPS ~ ., family = "binomial", data = train_kospi_full_deps_na_val_re[, -1])
 summary(glm)
 
 # 세 데이터세트의 각 경우에 대해 1의 갯수를 계산

@@ -2,7 +2,7 @@
 
 api.key <- readLines("~/projects/financial_information_analysis/data_crawling/resources/dart_api_key.txt")
 
-kospi_crp_cd_raw <- scan("~/projects/financial_information_analysis/data_crawling/resources/corp_code.csv", skip = 1)
+
 
 # 거래소 코드는 원래 6자리 기본이나 corp_code.csv에 입력된 값들 중 이 코드의 앞자리가 0이 있는 경우, 자릿수가 맞지 않아 자릿수가 안맞는 값들에 대해
 # 그 값의 앞자리에 0을 채워넣으면서 6자리로 맞춰야 함. 거래소 코드(corp_code.csv)를 신뢰성 있게 구축하는 방법도 생각해 볼만 함.

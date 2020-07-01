@@ -1,3 +1,6 @@
+setwd("~/projects/financial_information_analysis/data/corp_general_info/")
+crtfc_key <- readLines("~/projects/financial_information_analysis/api_key.txt")
 tmp <- tempfile()
-download.file("https://opendart.fss.or.kr/api/corpCode.xml?crtfc_key=", tmp)
-corp_code <- unzip(tmp, "~/projects/financial_information_analysis/data/corp_general_info/CORPCODE.xml")
+download.file(paste0("https://opendart.fss.or.kr/api/corpCode.xml?crtfc_key=", crtfc_key), tmp)
+unzip(tmp, "CORPCODE.xml")
+unlink(tmp)

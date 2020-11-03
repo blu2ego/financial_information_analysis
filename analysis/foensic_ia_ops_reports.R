@@ -443,6 +443,41 @@ xgb.importance(model = xgb.fit)
 #######################################################################################################################
 #######################################################################################################################
 
+
+library(caret)
+
+index_train <- createDataPartition(imputed_full$target, p = .7, list = F)
+training <- imputed_full[index_train, ]
+testing  <- imputed_full[-index_train, ]
+
+fitControl <- trainControl(method = "repeatedcv", number = 10, repeats = 5)
+
+lm_fit <- train(target ~ ., data = training, method = "glm", trControl = fitControl)
+tr_fit <- train(target ~ ., data = training, method = "rpart", trControl = fitControl, verbose = F, iter = 10)
+rf_fit <- train(target ~ ., data = training, method = "rf", trControl = fitControl)
+rf_yhat <- predict(rf_fit, newdata = testing)
+rf_pred <- prediction(yhat_cart_test[, "1"], as.numeric(as.character(test$target)))
+rf_perf <- performance(rf_pred, measure = 'tpr', x.measure = 'fpr')
+performance(rf_pred, "auc")@y.values[[1]]
+
+xgb_fit <- train(target ~ ., data = training, method = "xgbTree", trControl = fitControl, verbose = T)
+
+
+
+plot(rf_perf, main = 'ROC Curve for Logistic Model', lty = 1)
+plot(perf_glm_test, add = TRUE, lty = 2)
+abline(0, 1)
+
+rf_pred <- ifelse(rf_pred > 0.5, 1, 0)
+confusionMatrix(as.factor(rf_pred), as.factor(testing$target))
+
+#######################################################################################################################
+#######################################################################################################################
+#######################################################################################################################
+
+
+
+
 library(SHAPforxgboost)
 
 shap_values <- shap.values(xgb_model = forensic_xgb, X_train = train_xgboost)

@@ -294,15 +294,7 @@ exp_glm <- DALEX::explain(fit_glm, data = training[, -2],
 
 ################################################################################
 which(testing$target == "found")
-
 # [1] 3 16 18
-
-which(training$target == "found")
-#  [1]   2   4   9  13  15  17  19  25  27  29  32  38  43  47  52  57  67  72  
-# 76  80  85  89  94  98 104 109 114 117 126 130 133 135 142 147 151 156 159 161
-# [39] 166 170 175 179 184 187 189 192 197 202 207 212 216 221 224 229 232 235 
-# 238 242 247 252 256 261 264 268 271 277 281 286 289 291 294 305 308 313 316 320
-# [77] 324 328 340 345 350
 
 new_obs <- testing[3, -2]
 indv_found <- shap(exp_glm, new_observation = new_obs)
@@ -339,38 +331,49 @@ plot(indv_found_selected)
 
 idx_testing_found <- which(testing$target == "found")
 idx_testing_unfound <- which(testing$target == "unfound")
-
 idx_training_found <- which(training$target == "found")
 idx_training_unfound <- which(training$target == "unfound")
 
 aggre_sa <- data.frame()
+
 for (i in 1:length(idx_testing_found)) {
   itf <- idx_testing_found[i]
   new_obs <- testing[itf, -2]
   shap_testing_found <- shap(exp_glm, new_observation = new_obs)
-  aggre_sa[i, 1] <- shap_testing_found[shap_testing_found$`_vname_` == "sa", "_attribution_"]
+  aggre_sa[i, 1] <- shap_testing_found[shap_testing_found$`_vname_` == "sa", "sa"]
+  aggre_sa[i, 2] <- shap_testing_found[shap_testing_found$`_vname_` == "sa", "_attribution_"]
 }
 
 for (i in 1:length(idx_testing_unfound)) {
   ituf <- idx_testing_unfound[i]
   new_obs <- testing[ituf, -2]
   shap_testing_unfound <- shap(exp_glm, new_observation = new_obs)
-  aggre_sa[i, 2] <- shap_testing_unfound[shap_testing_unfound$`_vname_` == "sa", "_attribution_"]
+  aggre_sa[i, 3] <- shap_testing_unfound[shap_testing_unfound$`_vname_` == "sa", "sa"]
+  aggre_sa[i, 4] <- shap_testing_unfound[shap_testing_unfound$`_vname_` == "sa", "_attribution_"]
 }
 
 for (i in 1:length(idx_training_found)) {
   itrf <- idx_training_found[i]
   new_obs <- training[itrf, -2]
   shap_training_found <- shap(exp_glm, new_observation = new_obs)
-  aggre_sa[i, 3] <- shap_training_found[shap_training_found$`_vname_` == "sa", "_attribution_"]
+  aggre_sa[i, 5] <- shap_training_found[shap_training_found$`_vname_` == "sa", "sa"]
+  aggre_sa[i, 6] <- shap_training_found[shap_training_found$`_vname_` == "sa", "_attribution_"]
 }
 
 for (i in 1:length(idx_training_unfound)) {
   itruf <- idx_training_unfound[i]
   new_obs <- training[itruf, -2]
   shap_training_unfound <- shap(exp_glm, new_observation = new_obs)
-  aggre_sa[i, 4] <- shap_training_unfound[shap_training_unfound$`_vname_` == "sa", "_attribution_"]
+  aggre_sa[i, 7] <- shap_training_unfound[shap_training_unfound$`_vname_` == "sa", "sa"]
+  aggre_sa[i, 8] <- shap_training_unfound[shap_training_unfound$`_vname_` == "sa", "_attribution_"]
 }
 
-
 save.image("analysis/forensic.RData")
+names(aggre_sa) <- c("testing_found_sa_value", "testing_found_sa_index", 
+                     "testing_unound_sa_value", "testing_unfound_sa_index",
+                     "training_found_sa_value", "training_found_sa_index", 
+                     "training_unound_sa_value", "training_unfound_sa_index")
+
+ggplot(aggre_sa, aes(x = V1, y = V2)) + 
+  geom_point()
+

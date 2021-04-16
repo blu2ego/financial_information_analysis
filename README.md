@@ -1,3 +1,4 @@
-# Information Analysis of Accounting
+# Accounting Information Analysis
 
-1. crawl dart data with R and Python
+1. Financial Statement Analysis
+2. Audit Data Analysis
